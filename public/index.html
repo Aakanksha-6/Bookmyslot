@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="bookMySlot">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BookMySlot</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular-route.min.js"></script>
+  <script src="app.js"></script>
+</head>
+<body>
+  <header>
+    <h1>BookMySlot — IT Seminar Hall Booking</h1>
+    <nav>
+      <a href="#!/available">Available Slots</a>
+      <a href="#!/bookings">My Bookings</a>
+      <a href="#!/admin">Admin Panel</a>
+    </nav>
+  </header>
+
+  <main ng-view></main>
+
+  <script type="text/ng-template" id="available.html">
+    <section class="page">
+      <h2>Available Slots</h2>
+      <div class="slot-grid">
+        <div class="slot-card" ng-repeat="slot in vm.slots" ng-class="{ full: !slot.isAvailable }">
+          <div class="slot-header">
+            <span>{{slot.labName}}</span>
+            <span class="badge" ng-class="{ available: slot.isAvailable, full: !slot.isAvailable }">{{slot.isAvailable ? 'Available' : 'Full'}}</span>
+          </div>
+          <div class="slot-details">
+            <div><strong>Date:</strong> {{slot.date}}</div>
+            <div><strong>Time:</strong> {{slot.time}}</div>
+            <div><strong>Seats:</strong> {{slot.availableSeats}} / {{slot.totalSeats}}</div>
+          </div>
+          <form ng-submit="vm.book(slot)" class="book-form">
+            <input type="text" ng-model="vm.booking.rollNumber" placeholder="Roll Number" required />
+            <input type="text" ng-model="vm.booking.studentName" placeholder="Student Name" required />
+            <button type="submit" ng-disabled="!slot.isAvailable">Book Slot</button>
+          </form>
+          <div class="message success" ng-if="vm.slotMessage[slot._id] && vm.slotMessage[slot._id].type === 'success'">{{vm.slotMessage[slot._id].text}}</div>
+          <div class="message error" ng-if="vm.slotMessage[slot._id] && vm.slotMessage[slot._id].type === 'error'">{{vm.slotMessage[slot._id].text}}</div>
+        </div>
+      </div>
+    </section>
+  </script>
+
+  <script type="text/ng-template" id="bookings.html">
+    <section class="page">
+      <h2>My Bookings</h2>
+      <form ng-submit="vm.loadBookings()" class="filter-form">
+        <input type="text" ng-model="vm.filterRoll" placeholder="Enter roll number" required />
+        <button type="submit">Search</button>
+      </form>
+      <div ng-if="vm.bookings.length === 0" class="empty-state">No bookings found.</div>
+      <div class="booking-list" ng-if="vm.bookings.length">
+        <div class="booking-card" ng-repeat="booking in vm.bookings">
+          <div><strong>{{booking.labName}}</strong></div>
+          <div>{{booking.date}} • {{booking.time}}</div>
+          <div>Roll: {{booking.rollNumber}}</div>
+          <div>Name: {{booking.studentName}}</div>
+          <button ng-click="vm.cancel(booking)">Cancel</button>
+        </div>
+      </div>
+      <div class="message success" ng-if="vm.message.type === 'success'">{{vm.message.text}}</div>
+      <div class="message error" ng-if="vm.message.type === 'error'">{{vm.message.text}}</div>
+    </section>
+  </script>
+
+  <script type="text/ng-template" id="admin.html">
+    <section class="page">
+      <h2>Admin Panel</h2>
+      <div class="admin-grid">
+        <div class="admin-card">
+          <h3>Add New Slot</h3>
+          <form ng-submit="vm.addSlot()" class="admin-form">
+            <input type="text" ng-model="vm.newSlot.labName" placeholder="Lab Name" required />
+            <input type="date" ng-model="vm.newSlot.date" required />
+            <input type="time" ng-model="vm.newSlot.time" required />
+            <input type="number" ng-model="vm.newSlot.totalSeats" placeholder="Total Seats" min="1" required />
+            <button type="submit">Create Slot</button>
+          </form>
+          <div class="message success" ng-if="vm.adminMessage.type === 'success'">{{vm.adminMessage.text}}</div>
+          <div class="message error" ng-if="vm.adminMessage.type === 'error'">{{vm.adminMessage.text}}</div>
+        </div>
+        <div class="admin-card bookings-panel">
+          <h3>All Bookings</h3>
+          <div ng-if="vm.bookings.length === 0" class="empty-state">No bookings yet.</div>
+          <div class="booking-card" ng-repeat="booking in vm.bookings">
+            <div><strong>{{booking.labName}}</strong></div>
+            <div>{{booking.date}} • {{booking.time}}</div>
+            <div>{{booking.studentName}} ({{booking.rollNumber}})</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </script>
+</body>
+</html>

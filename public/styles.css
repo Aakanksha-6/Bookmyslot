@@ -1,0 +1,168 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #20232a;
+}
+
+header {
+  background: #1c3d6b;
+  color: white;
+  padding: 24px 32px;
+}
+
+header h1 {
+  margin: 0 0 12px;
+  font-size: 24px;
+}
+
+nav {
+  display: flex;
+  gap: 14px;
+}
+
+nav a {
+  color: #dce6ff;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+nav a:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+main {
+  padding: 24px 32px;
+}
+
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.slot-grid,
+.admin-grid,
+.booking-list {
+  display: grid;
+  gap: 18px;
+}
+
+.slot-grid {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.slot-card,
+.admin-card,
+.booking-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  padding: 18px;
+}
+
+.slot-card.full {
+  opacity: 0.78;
+}
+
+.slot-header,
+.slot-details {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.86rem;
+}
+
+.badge.available {
+  background: #d9f7e3;
+  color: #0f6f4d;
+}
+
+.badge.full {
+  background: #ffe0e0;
+  color: #9b1f1f;
+}
+
+.book-form,
+.admin-form,
+.filter-form {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+input,
+button {
+  border: 1px solid #d1d9e6;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+}
+
+input:focus,
+button:focus {
+  outline: none;
+  border-color: #6b95ff;
+}
+
+button {
+  background: #1c3d6b;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+button:hover {
+  background: #16335e;
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  background: #9eaecf;
+  cursor: not-allowed;
+}
+
+.message {
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.message.success {
+  background: #e7f7ec;
+  color: #1a6c35;
+}
+
+.message.error {
+  background: #fee8e8;
+  color: #8a1b1b;
+}
+
+.empty-state {
+  padding: 18px;
+  background: #fff8e6;
+  border: 1px solid #f5deb3;
+  border-radius: 12px;
+}
+
+.admin-grid {
+  grid-template-columns: 1fr 1.2fr;
+}
+
+.bookings-panel {
+  max-height: 640px;
+  overflow-y: auto;
+}
+
+@media (max-width: 900px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+}

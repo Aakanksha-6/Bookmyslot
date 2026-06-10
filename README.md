@@ -33,3 +33,4 @@ npm run dev
 - `POST /book` — book a slot (additional helper endpoint)
 - `POST /cancel` — cancel a booking (additional helper endpoint)
 - `GET /bookings` — fetch bookings optionally filtered by roll number
+
